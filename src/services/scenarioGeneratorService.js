@@ -1,21 +1,20 @@
 const natural = require('natural');
-const { Configuration, OpenAIApi } = require('openai');
+const OpenAI = require('openai');
 
 class ScenarioGeneratorService {
   constructor() {
     this.tokenizer = new natural.WordTokenizer();
-    this.configuration = new Configuration({
+    this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY
     });
-    this.openai = new OpenAIApi(this.configuration);
   }
 
   async generateScenario(role, difficulty, skills) {
     try {
       const prompt = this.buildPrompt(role, difficulty, skills);
-      const response = await this.openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: prompt,
+      const response = await this.openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: prompt }],
         max_tokens: 500,
         temperature: 0.7
       });
