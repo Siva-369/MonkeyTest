@@ -43,6 +43,7 @@ const API_PREFIX = process.env.API_PREFIX || '/api/v1';
 const assessmentRoutes = require('./routes/assessmentRoutes');
 const candidateRoutes = require('./routes/candidateRoutes');
 const authRoutes = require('./routes/authRoutes');
+const adaptiveAssessmentRoutes = require('./routes/adaptiveAssessmentRoutes');
 
 // Serve static files from public directory
 app.use(express.static('public'));
@@ -60,6 +61,7 @@ app.get('/health', (req, res) => {
 app.use(`${API_PREFIX}/auth`, authRoutes);
 app.use(`${API_PREFIX}/assessments`, assessmentRoutes);
 app.use(`${API_PREFIX}/candidates`, candidateRoutes);
+app.use(`${API_PREFIX}/adaptive-assessments`, adaptiveAssessmentRoutes);
 
 // Serve index.html for all other routes (SPA support)
 app.get('*', (req, res) => {
