@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Handle active page highlighting
   highlightActivePage();
+  
+  // Initialize interactive components
+  initInteractiveComponents();
 });
 
 /**
@@ -237,6 +240,83 @@ function loadPageContent(route) {
   
   // Update main content
   mainContent.innerHTML = content;
+}
+
+/**
+ * Initialize interactive components
+ */
+function initInteractiveComponents() {
+  // Login button
+  const loginBtn = document.querySelector('.btn-login');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', function() {
+      // In a real app, this would open a login modal or redirect to login page
+      alert('Login functionality would be implemented here');
+    });
+  }
+  
+  // Signup button
+  const signupBtn = document.querySelector('.btn-signup');
+  if (signupBtn) {
+    signupBtn.addEventListener('click', function() {
+      // In a real app, this would open a signup modal or redirect to signup page
+      alert('Signup functionality would be implemented here');
+    });
+  }
+  
+  // Search functionality
+  const searchBtn = document.querySelector('.search-button');
+  const searchInput = document.querySelector('.search-input');
+  if (searchBtn && searchInput) {
+    searchBtn.addEventListener('click', function() {
+      performSearch(searchInput.value);
+    });
+    
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch(searchInput.value);
+      }
+    });
+  }
+  
+  // CTA buttons
+  const getStartedBtn = document.querySelector('.btn-primary');
+  if (getStartedBtn) {
+    getStartedBtn.addEventListener('click', function() {
+      // Navigate to dashboard or signup
+      window.history.pushState({}, '', '/dashboard');
+      highlightActivePage();
+      loadPageContent('/dashboard');
+    });
+  }
+  
+  const learnMoreBtn = document.querySelector('.btn-secondary');
+  if (learnMoreBtn) {
+    learnMoreBtn.addEventListener('click', function() {
+      // Scroll to features section or navigate to about page
+      const featuresSection = document.querySelector('.features');
+      if (featuresSection) {
+        featuresSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+}
+
+/**
+ * Perform search functionality
+ * @param {string} query - The search query
+ */
+function performSearch(query) {
+  if (!query.trim()) {
+    alert('Please enter a search term');
+    return;
+  }
+  
+  // In a real app, this would search the database or filter content
+  alert(`Searching for: ${query}`);
+  // Example: redirect to search results page
+  // window.history.pushState({}, '', `/search?q=${encodeURIComponent(query)}`);
+  // loadPageContent('/search');
 }
 
 // Handle browser back/forward navigation

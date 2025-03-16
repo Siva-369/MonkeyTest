@@ -5,16 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Hiring Assessment Platform</title>
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <div id="app">
         <header>
             <!-- Navigation will be inserted here by JavaScript -->
+            <div class="user-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." class="search-input">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-login">Login</button>
+                    <button class="btn btn-signup">Sign Up</button>
+                </div>
+            </div>
         </header>
         <main>
             <section class="welcome">
                 <h2>Welcome to the Future of Hiring</h2>
                 <p>Our AI-powered platform helps evaluate candidates through comprehensive, automated assessments.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary">Get Started</button>
+                    <button class="btn btn-secondary">Learn More</button>
+                </div>
+            </section>
+            <section class="features">
+                <h2>Key Features</h2>
+                <div class="feature-cards">
+                    <div class="card feature-card">
+                        <i class="fas fa-brain feature-icon"></i>
+                        <h3>AI-Powered Assessments</h3>
+                        <p>Evaluate candidates with intelligent, adaptive testing</p>
+                    </div>
+                    <div class="card feature-card">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <h3>Detailed Analytics</h3>
+                        <p>Gain insights with comprehensive performance metrics</p>
+                    </div>
+                    <div class="card feature-card">
+                        <i class="fas fa-users feature-icon"></i>
+                        <h3>Candidate Management</h3>
+                        <p>Streamline your hiring pipeline with integrated tools</p>
+                    </div>
+                </div>
             </section>
         </main>
         <footer>
