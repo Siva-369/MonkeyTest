@@ -41,6 +41,11 @@ const API_PREFIX = process.env.API_PREFIX || '/api/v1';
 
 // Import routes
 const assessmentRoutes = require('./routes/assessmentRoutes');
+const candidateRoutes = require('./routes/candidateRoutes');
+const authRoutes = require('./routes/authRoutes');
+
+// Serve static files from public directory
+app.use(express.static('public'));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -52,7 +57,14 @@ app.get('/health', (req, res) => {
 });
 
 // Register routes
+app.use(`${API_PREFIX}/auth`, authRoutes);
 app.use(`${API_PREFIX}/assessments`, assessmentRoutes);
+app.use(`${API_PREFIX}/candidates`, candidateRoutes);
+
+// Serve index.html for all other routes (SPA support)
+app.get('*', (req, res) => {
+  res.sendFile('index.html', { root: './public' });
+});
 
 // Connect to MongoDB
 mongoose.connect('mongodb://127.0.0.1:27017/hiring-assessment', {
