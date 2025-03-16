@@ -1,7 +1,5 @@
 /* Main Styles for AI Hiring Assessment Platform */
 
-/* AI Assessment Features */
-
 /* Section Titles */
 .section-title {
   margin-top: 2rem;
@@ -22,11 +20,22 @@
   margin: 0.5rem auto;
 }
 
+/* Feature Cards */
+.features {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.features h2 {
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
 .feature-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
 .feature-card {
@@ -241,8 +250,6 @@
   display: none;
 }
 
-/* AI Assessment Features */
-
 /* Navigation */
 .navbar {
   display: flex;
@@ -429,71 +436,6 @@
   background-color: #2980b9;
 }
 
-/* Feature Cards */
-.features {
-  margin-top: 3rem;
-  text-align: center;
-}
-
-.features h2 {
-  margin-bottom: 2rem;
-  color: #2c3e50;
-}
-
-.feature-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.feature-card {
-  text-align: center;
-  padding: 2rem;
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  border-bottom: 3px solid transparent;
-  background-color: white;
-}
-
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, #3498db, #2980b9);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
-}
-
-.feature-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-  border-color: #3498db;
-}
-
-.feature-card:hover::before {
-  transform: scaleX(1);
-}
-
-.feature-icon {
-  font-size: 2.8rem;
-  color: #3498db;
-  margin-bottom: 1.2rem;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.feature-card:hover .feature-icon {
-  transform: scale(1.1);
-  color: #2980b9;
-}
-
 /* AI Assessment Feature Specific Styles */
 .adaptive-scenario-feature .feature-icon {
   color: #e74c3c;
@@ -597,66 +539,22 @@
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  text-align: center;
-  color: #555;
-  font-size: 1.1rem;
 }
 
-.loading::before {
-  content: '';
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #3498db;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.success-message {
-  text-align: center;
-  padding: 1.5rem;
-}
-
-.success-message i {
-  font-size: 3rem;
+.success {
   color: #2ecc71;
-  margin-bottom: 1rem;
-}
-
-.success-message h4 {
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
-}
-
-.assessment-details {
-  background-color: #f8f9fa;
-  border-radius: 6px;
   padding: 1rem;
+  border-radius: 4px;
+  background-color: rgba(46, 204, 113, 0.1);
+  border-left: 4px solid #2ecc71;
   margin: 1rem 0;
-  text-align: left;
 }
 
-.error-message {
-  text-align: center;
-  padding: 1.5rem;
-}
-
-.error-message i {
-  font-size: 3rem;
+.error {
   color: #e74c3c;
-  margin-bottom: 1rem;
-}
-
-.error-message h4 {
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
+  padding: 1rem;
+  border-radius: 4px;
+  background-color: rgba(231, 76, 60, 0.1);
+  border-left: 4px solid #e74c3c;
+  margin: 1rem 0;
 }
