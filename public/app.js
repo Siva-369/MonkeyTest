@@ -121,6 +121,19 @@ function addMobileNavToggle() {
               dropdown.style.borderTop = '1px solid rgba(255,255,255,0.1)';
             }
           });
+          
+          // Add click event listeners to dropdown items
+          const dropdownItems = dropdown.querySelectorAll('.dropdown-item');
+          dropdownItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+              e.stopPropagation(); // Prevent event bubbling
+              const targetPage = this.getAttribute('href');
+              window.history.pushState({}, '', targetPage);
+              highlightActivePage();
+              loadPageContent(targetPage);
+              navList.style.display = 'none'; // Close the mobile menu after selection
+            });
+          });
         }
       });
     } else {
@@ -179,7 +192,7 @@ function highlightActivePage() {
  */
 document.addEventListener('click', function(event) {
   // Check if clicked element is a navigation link
-  if (event.target.classList.contains('nav-link')) {
+  if (event.target.classList.contains('nav-link') && !event.target.closest('.nav-item').querySelector('.dropdown-menu')) {
     event.preventDefault();
     const targetPage = event.target.getAttribute('href');
     
@@ -190,6 +203,21 @@ document.addEventListener('click', function(event) {
     highlightActivePage();
     
     // Load page content (in a real SPA, this would fetch and render components)
+    loadPageContent(targetPage);
+  }
+  
+  // Check if clicked element is a dropdown item
+  if (event.target.classList.contains('dropdown-item') && window.matchMedia('(min-width: 769px)').matches) {
+    event.preventDefault();
+    const targetPage = event.target.getAttribute('href');
+    
+    // Update URL without page reload (client-side routing)
+    window.history.pushState({}, '', targetPage);
+    
+    // Update active page highlighting
+    highlightActivePage();
+    
+    // Load page content
     loadPageContent(targetPage);
   }
 });

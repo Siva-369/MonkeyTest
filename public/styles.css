@@ -51,6 +51,7 @@
   border-bottom: 3px solid transparent;
   position: relative;
   overflow: hidden;
+  min-height: 320px; /* Ensure consistent height */
 }
 
 .feature-card::before {
@@ -106,6 +107,22 @@
   color: #2980b9;
 }
 
+.feature-card .feature-details {
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: height 0.3s ease, opacity 0.3s ease;
+  width: 100%;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.feature-card:hover .feature-details {
+  height: auto;
+  opacity: 1;
+  margin-bottom: 1rem;
+}
+
 .btn-feature, .btn-create {
   margin-top: auto;
   background-color: #3498db;
@@ -119,6 +136,8 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn-feature:hover, .btn-create:hover {
@@ -127,6 +146,38 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.btn-feature::after, .btn-create::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.btn-feature:hover::after, .btn-create:hover::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+}
 /* Modal Styles */
 .modal {
   display: block;
