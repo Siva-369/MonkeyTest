@@ -363,6 +363,11 @@ function loadPageContent(route) {
  * Initialize interactive components
  */
 function initInteractiveComponents() {
+  // Initialize contact form
+  initContactForm();
+  
+  // Initialize FAQ accordion
+  initFaqAccordion();
   // Login button
   const loginBtn = document.querySelector('.btn-login');
   if (loginBtn) {
@@ -955,6 +960,37 @@ function showCreateAssessmentModal(type) {
       showFeatureModal(feature);
     });
   });
+}
+
+/**
+ * Initialize FAQ accordion functionality
+ */
+function initFaqAccordion() {
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  if (faqItems.length > 0) {
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      
+      question.addEventListener('click', function() {
+        // Toggle active class on the clicked item
+        const isActive = item.classList.contains('active');
+        
+        // Close all FAQ items
+        faqItems.forEach(faqItem => {
+          faqItem.classList.remove('active');
+        });
+        
+        // If the clicked item wasn't active, make it active
+        if (!isActive) {
+          item.classList.add('active');
+        }
+      });
+    });
+    
+    // Open the first FAQ item by default
+    faqItems[0].classList.add('active');
+  }
 }
 
 // Handle browser back/forward navigation

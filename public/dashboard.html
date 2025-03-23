@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - AI Hiring Assessment Platform</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <!-- Navigation will be inserted here by JavaScript -->
+            <div class="user-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." class="search-input">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-login">Login</button>
+                    <button class="btn btn-signup">Sign Up</button>
+                </div>
+            </div>
+        </header>
+        <main>
+            <section class="dashboard-header">
+                <h1>Assessment Analytics Dashboard</h1>
+                <p>Comprehensive insights into candidate performance and assessment effectiveness</p>
+                <div class="dashboard-filters">
+                    <div class="filter-group">
+                        <label for="assessment-type-filter">Assessment Type:</label>
+                        <select id="assessment-type-filter">
+                            <option value="all">All Assessments</option>
+                            <option value="technical">Technical</option>
+                            <option value="behavioral">Behavioral</option>
+                            <option value="communication">Communication</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="date-range-filter">Date Range:</label>
+                        <select id="date-range-filter">
+                            <option value="7days">Last 7 Days</option>
+                            <option value="30days">Last 30 Days</option>
+                            <option value="90days">Last 90 Days</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="apply-filters">Apply Filters</button>
+                </div>
+            </section>
+
+            <section class="dashboard-summary">
+                <div class="summary-cards">
+                    <div class="card summary-card">
+                        <div class="summary-icon"><i class="fas fa-users"></i></div>
+                        <div class="summary-content">
+                            <h3>Total Candidates</h3>
+                            <p class="summary-value">124</p>
+                            <p class="summary-trend positive"><i class="fas fa-arrow-up"></i> 12% from last month</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="summary-icon"><i class="fas fa-tasks"></i></div>
+                        <div class="summary-content">
+                            <h3>Active Assessments</h3>
+                            <p class="summary-value">37</p>
+                            <p class="summary-trend positive"><i class="fas fa-arrow-up"></i> 8% from last month</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="summary-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="summary-content">
+                            <h3>Completed Assessments</h3>
+                            <p class="summary-value">89</p>
+                            <p class="summary-trend positive"><i class="fas fa-arrow-up"></i> 15% from last month</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="summary-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="summary-content">
+                            <h3>Average Score</h3>
+                            <p class="summary-value">72.5%</p>
+                            <p class="summary-trend negative"><i class="fas fa-arrow-down"></i> 3% from last month</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="dashboard-charts">
+                <div class="chart-row">
+                    <div class="card chart-card">
+                        <h3 class="chart-title">Assessment Performance by Type</h3>
+                        <div class="chart-container">
+                            <canvas id="assessment-type-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card chart-card">
+                        <h3 class="chart-title">Skill Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="skill-distribution-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-row">
+                    <div class="card chart-card">
+                        <h3 class="chart-title">Candidate Performance Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="performance-trend-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card chart-card">
+                        <h3 class="chart-title">Communication Analysis</h3>
+                        <div class="chart-container">
+                            <canvas id="communication-analysis-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ai-insights">
+                <h2 class="section-title">AI-Generated Insights</h2>
+                <div class="insights-container">
+                    <div class="card insight-card">
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb insight-icon"></i>
+                            <h3>Technical Skills Analysis</h3>
+                        </div>
+                        <div class="insight-content">
+                            <p>Based on recent technical assessments, candidates show strong performance in:</p>
+                            <ul class="strength-list">
+                                <li><span class="strength-score">87%</span> System Design</li>
+                                <li><span class="strength-score">82%</span> Problem Solving</li>
+                                <li><span class="strength-score">79%</span> Code Quality</li>
+                            </ul>
+                            <p>Areas for improvement include:</p>
+                            <ul class="weakness-list">
+                                <li><span class="weakness-score">58%</span> Debugging Skills</li>
+                                <li><span class="weakness-score">62%</span> Security Best Practices</li>
+                            </ul>
+                            <div class="recommendation">
+                                <h4>Recommendation:</h4>
+                                <p>Consider adding more debugging exercises to technical assessments to better evaluate this critical skill.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card insight-card">
+                        <div class="insight-header">
+                            <i class="fas fa-comments insight-icon"></i>
+                            <h3>Communication Pattern Analysis</h3>
+                        </div>
+                        <div class="insight-content">
+                            <p>Communication assessment results indicate:</p>
+                            <ul class="communication-metrics">
+                                <li><span class="metric-label">Clarity:</span> <span class="metric-value high">High (84%)</span></li>
+                                <li><span class="metric-label">Coherence:</span> <span class="metric-value medium">Medium (72%)</span></li>
+                                <li><span class="metric-label">Complexity:</span> <span class="metric-value medium">Medium (68%)</span></li>
+                            </ul>
+                            <p>Sentiment analysis shows predominantly positive communication patterns with professional tone.</p>
+                            <div class="recommendation">
+                                <h4>Recommendation:</h4>
+                                <p>Candidates with high clarity scores (>80%) show strong correlation with successful project management roles.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card insight-card">
+                        <div class="insight-header">
+                            <i class="fas fa-brain insight-icon"></i>
+                            <h3>Behavioral Insights</h3>
+                        </div>
+                        <div class="insight-content">
+                            <p>Leadership potential indicators:</p>
+                            <div class="behavioral-metrics">
+                                <div class="metric-item">
+                                    <span class="metric-name">Decision Making</span>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 76%;"></div>
+                                    </div>
+                                    <span class="metric-value">76%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-name">Team Collaboration</span>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 82%;"></div>
+                                    </div>
+                                    <span class="metric-value">82%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-name">Stress Response</span>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 68%;"></div>
+                                    </div>
+                                    <span class="metric-value">68%</span>
+                                </div>
+                            </div>
+                            <div class="recommendation">
+                                <h4>Recommendation:</h4>
+                                <p>Candidates scoring high in both Team Collaboration and Decision Making show strong potential for leadership roles.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="top-candidates">
+                <h2 class="section-title">Top Performing Candidates</h2>
+                <div class="candidates-table-container">
+                    <table class="candidates-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate</th>
+                                <th>Assessment Type</th>
+                                <th>Overall Score</th>
+                                <th>Technical</th>
+                                <th>Communication</th>
+                                <th>Behavioral</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="candidate-info">
+                                        <div class="candidate-avatar"><i class="fas fa-user-circle"></i></div>
+                                        <div>
+                                            <p class="candidate-name">Sarah Johnson</p>
+                                            <p class="candidate-role">Frontend Developer</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Technical</td>
+                                <td><span class="score high">92%</span></td>
+                                <td><span class="score high">94%</span></td>
+                                <td><span class="score high">88%</span></td>
+                                <td><span class="score high">90%</span></td>
+                                <td>
+                                    <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-file-download"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="candidate-info">
+                                        <div class="candidate-avatar"><i class="fas fa-user-circle"></i></div>
+                                        <div>
+                                            <p class="candidate-name">Michael Chen</p>
+                                            <p class="candidate-role">Backend Developer</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Technical</td>
+                                <td><span class="score high">89%</span></td>
+                                <td><span class="score high">92%</span></td>
+                                <td><span class="score medium">78%</span></td>
+                                <td><span class="score high">85%</span></td>
+                                <td>
+                                    <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-file-download"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="candidate-info">
+                                        <div class="candidate-avatar"><i class="fas fa-user-circle"></i></div>
+                                        <div>
+                                            <p class="candidate-name">Emily Rodriguez</p>
+                                            <p class="candidate-role">Product Manager</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Non-Technical</td>
+                                <td><span class="score high">87%</span></td>
+                                <td><span class="score medium">75%</span></td>
+                                <td><span class="score high">92%</span></td>
+                                <td><span class="score high">94%</span></td>
+                                <td>
+                                    <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-file-download"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="candidate-info">
+                                        <div class="candidate-avatar"><i class="fas fa-user-circle"></i></div>
+                                        <div>
+                                            <p class="candidate-name">David Wilson</p>
+                                            <p class="candidate-role">Full Stack Developer</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Technical</td>
+                                <td><span class="score high">85%</span></td>
+                                <td><span class="score high">88%</span></td>
+                                <td><span class="score medium">76%</span></td>
+                                <td><span class="score high">82%</span></td>
+                                <td>
+                                    <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-file-download"></i></button>
+                                </td>
+                            </tr>
