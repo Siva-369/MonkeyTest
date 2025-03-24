@@ -9,6 +9,10 @@ const Candidate = require('../models/Candidate');
 const adaptiveScenarioService = require('../services/adaptiveScenarioService');
 const communicationAnalysisService = require('../services/communicationAnalysisService');
 const skillAssessmentService = require('../services/skillAssessmentService');
+const adaptiveDifficultyService = require('../services/adaptiveDifficultyService');
+const enhancedBehavioralAnalysisService = require('../services/enhancedBehavioralAnalysisService');
+const visualizationService = require('../services/visualizationService');
+const codeEvaluationService = require('../services/codeEvaluationService');
 
 /**
  * Generate a dynamic adaptive assessment for a specific role
@@ -24,11 +28,14 @@ exports.generateAdaptiveAssessment = async (req, res) => {
       });
     }
     
-    // Generate dynamic scenarios based on role and skills
+    // Generate dynamic scenarios based on role and skills with candidate profile if available
+    const candidateProfile = req.body.candidateId ? await Candidate.findById(req.body.candidateId) : null;
     const scenario = await adaptiveScenarioService.generateDynamicScenario(
       role, 
       difficultyLevel, 
-      skills
+      skills,
+      [],  // No previous responses yet
+      candidateProfile
     );
     
     // Create a new assessment with the generated scenario
@@ -101,6 +108,222 @@ exports.generateAdaptiveAssessment = async (req, res) => {
 /**
  * Generate a technical skill assessment for a specific role
  */
+/**
+ * Adjust question difficulty based on candidate performance
+ */
+/**
+ * Analyze candidate communication patterns and behavioral traits
+ */
+exports.analyzeCommunication = async (req, res) => {
+  try {
+    const { response, communicationType, context } = req.body;
+    
+    if (!response) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Missing required parameter: response'
+      });
+    }
+    
+    // Perform enhanced behavioral analysis
+    const behavioralAnalysis = await enhancedBehavioralAnalysisService.analyzeBehavior(response, context);
+    
+    // Generate visualization data for the analysis
+    const communicationVisualization = visualizationService.generateCommunicationPatternsData(
+      behavioralAnalysis.communication
+    );
+    
+    const emotionVisualization = visualizationService.generateBehavioralAnalysisData(
+      behavioralAnalysis
+    );
+    
+    res.status(200).json({
+      status: 'success',
+      data: {
+        behavioralAnalysis,
+        visualizations: {
+          communication: communicationVisualization,
+          emotions: emotionVisualization
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Error analyzing communication:', error);
+    res.status(500).json({
+      status: 'error',
+      message: error.message || 'Failed to analyze communication'
+    });
+  }
+};
+
+/**
+ * Adjust question difficulty based on candidate performance
+ */
+exports.adjustQuestionDifficulty = async (req, res) => {
+  try {
+    const { candidateId, assessmentId, currentDifficulty, performanceScore } = req.body;
+    
+    if (!candidateId || !assessmentId || !currentDifficulty || performanceScore === undefined) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Missing required parameters: candidateId, assessmentId, currentDifficulty, or performanceScore'
+      });
+    }
+    
+    // Get candidate profile and previous responses
+    const candidate = await Candidate.findById(candidateId);
+    if (!candidate) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Candidate not found'
+      });
+    }
+    
+    // Find the assessment submission
+    const assessmentSubmission = candidate.assessmentSubmissions.find(
+      submission => submission.assessment.toString() === assessmentId
+    );
+    
+    if (!assessmentSubmission) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Assessment submission not found'
+      });
+    }
+    
+    // Calculate next difficulty level using the adaptive difficulty service
+    const nextDifficulty = adaptiveDifficultyService.calculateNextDifficulty(
+      assessmentSubmission.answers,
+      candidate,
+      currentDifficulty,
+      performanceScore
+    );
+    
+    // Update the assessment submission with the new difficulty level
+    assessmentSubmission.currentDifficulty = nextDifficulty;
+    await candidate.save();
+    
+    res.status(200).json({
+      status: 'success',
+      data: {
+        previousDifficulty: currentDifficulty,
+        newDifficulty: nextDifficulty,
+        candidateId,
+        assessmentId
+      }
+    });
+  } catch (error) {
+    console.error('Error adjusting question difficulty:', error);
+    res.status(500).json({
+      status: 'error',
+      message: error.message || 'Failed to adjust question difficulty'
+    });
+  }
+};
+
+/**
+ * Generate a non-technical assessment for business and management roles
+ */
+exports.generateNonTechnicalAssessment = async (req, res) => {
+  try {
+    const { role, level, skills } = req.body;
+    
+    if (!role || !level || !skills) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Missing required parameters: role, level, or skills'
+      });
+    }
+    
+    // Generate non-technical assessment
+    const nonTechnicalAssessment = await skillAssessmentService.generateNonTechnicalAssessment(
+      role,
+      level,
+      skills
+    );
+    
+    // Create a new assessment with the generated non-technical content
+    const assessment = new Assessment({
+      title: `${role} Non-Technical Assessment`,
+      description: `Comprehensive non-technical assessment for ${level} ${role} position`,
+      type: 'behavioral',
+      duration: 90, // Default duration in minutes for non-technical assessments
+      totalPoints: 100, // Default total points
+      passingScore: 70, // Default passing score
+      questions: [
+        // Convert case studies to questions
+        ...nonTechnicalAssessment.caseStudies.map((caseStudy, index) => ({
+          content: caseStudy.description,
+          type: 'case_study',
+          difficulty: caseStudy.difficulty,
+          points: caseStudy.difficulty === 'easy' ? 15 : (caseStudy.difficulty === 'medium' ? 20 : 25),
+          category: 'problem_solving',
+          metadata: { caseStudyIndex: index }
+        })),
+        // Add decision-making scenarios as questions
+        ...nonTechnicalAssessment.decisionScenarios.map((scenario, index) => ({
+          content: scenario.description,
+          type: 'decision_making',
+          difficulty: scenario.difficulty,
+          points: scenario.difficulty === 'easy' ? 15 : (scenario.difficulty === 'medium' ? 20 : 25),
+          category: 'decision_making',
+          metadata: { scenarioIndex: index }
+        })),
+        // Add behavioral questions
+        ...nonTechnicalAssessment.behavioralQuestions.map((q, index) => ({
+          content: q.question,
+          type: 'behavioral',
+          difficulty: 'medium',
+          points: 10,
+          category: 'behavioral',
+          metadata: { questionIndex: index }
+        }))
+      ],
+      status: 'active',
+      createdBy: req.user ? req.user.id : null,
+      isAdaptive: true,
+      targetRole: role,
+      requiredSkills: skills,
+      difficultyLevel: level === 'junior' ? 'entry' : (level === 'mid' ? 'intermediate' : 'advanced'),
+      scoringCriteria: [
+        {
+          category: 'problem_solving',
+          weight: 0.3,
+          passingScore: 60
+        },
+        {
+          category: 'decision_making',
+          weight: 0.3,
+          passingScore: 60
+        },
+        {
+          category: 'behavioral',
+          weight: 0.2,
+          passingScore: 60
+        },
+        {
+          category: 'communication',
+          weight: 0.2,
+          passingScore: 60
+        }
+      ]
+    });
+    
+    await assessment.save();
+    
+    res.status(201).json({
+      status: 'success',
+      data: assessment
+    });
+  } catch (error) {
+    console.error('Error generating non-technical assessment:', error);
+    res.status(500).json({
+      status: 'error',
+      message: error.message || 'Failed to generate non-technical assessment'
+    });
+  }
+};
+
 exports.generateTechnicalAssessment = async (req, res) => {
   try {
     const { role, level, technologies } = req.body;

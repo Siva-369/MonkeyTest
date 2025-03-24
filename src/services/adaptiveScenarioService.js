@@ -59,14 +59,31 @@ class AdaptiveScenarioService {
       expert: 'highly complex'
     };
 
-    // Add personalization based on candidate profile
-    const personalization = candidateProfile.experience 
-      ? `The candidate has ${candidateProfile.experience} years of experience.` 
-      : '';
+    // Enhanced personalization based on candidate profile
+    let personalization = '';
+    if (candidateProfile) {
+      const experienceText = candidateProfile.experience 
+        ? `The candidate has ${candidateProfile.experience} years of experience.` 
+        : '';
+      
+      const educationText = candidateProfile.education && candidateProfile.education.length > 0
+        ? `Their highest education is ${candidateProfile.education[0].degree} from ${candidateProfile.education[0].institution}.`
+        : '';
+      
+      const skillsText = candidateProfile.skills && candidateProfile.skills.length > 0
+        ? `Their skills include: ${candidateProfile.skills.join(', ')}.`
+        : '';
+      
+      const performanceText = candidateProfile.overallPerformance && candidateProfile.overallPerformance.averageScore
+        ? `Their average performance score is ${candidateProfile.overallPerformance.averageScore}.`
+        : '';
+      
+      personalization = `${experienceText} ${educationText} ${skillsText} ${performanceText}`;
+    }
 
-    // Add themes to avoid for non-repetitive scenarios
+    // Enhanced themes avoidance for truly non-repetitive scenarios
     const avoidThemesText = avoidThemes.length > 0 
-      ? `Avoid these themes that were already covered: ${avoidThemes.join(', ')}.` 
+      ? `Avoid these themes that were already covered: ${avoidThemes.join(', ')}. Create a completely different scenario context.` 
       : '';
 
     return `Generate a ${difficultyLevels[difficultyLevel]} workplace scenario for a ${role} position.
@@ -82,13 +99,18 @@ class AdaptiveScenarioService {
     - Specific challenges that require critical thinking
     - Multiple aspects to consider (technical, interpersonal, business impact)
     - Opportunities to demonstrate the required skills
+    - Industry-specific terminology and situations
+    - Realistic constraints and limitations
+    - Stakeholders with different perspectives and needs
     
     Format the response as JSON with these fields:
     - title: Brief descriptive title
     - description: Short overview of the scenario
     - context: Detailed background information
     - challenges: Array of specific challenges to address
-    - stakeholders: Key people involved in the scenario`;
+    - stakeholders: Key people involved in the scenario
+    - constraints: Limitations or restrictions to consider
+    - successCriteria: Metrics for evaluating success`;
   }
 
   /**
@@ -135,20 +157,46 @@ class AdaptiveScenarioService {
       'expert': 25
     };
 
-    // Generate behavioral questions
+    // Enhanced question generation based on difficulty level
+    const difficultyModifiers = {
+      'entry': {
+        complexity: 'basic',
+        depth: 'fundamental',
+        constraints: 'minimal'
+      },
+      'intermediate': {
+        complexity: 'moderate',
+        depth: 'detailed',
+        constraints: 'reasonable'
+      },
+      'advanced': {
+        complexity: 'complex',
+        depth: 'comprehensive',
+        constraints: 'significant'
+      },
+      'expert': {
+        complexity: 'highly complex',
+        depth: 'exhaustive',
+        constraints: 'challenging'
+      }
+    };
+    
+    const modifier = difficultyModifiers[difficultyLevel];
+
+    // Generate enhanced behavioral questions
     questions.push({
-      content: `How would you approach solving the ${scenario.title} challenge? Describe your step-by-step process.`,
+      content: `How would you approach solving the ${scenario.title} challenge? Provide a ${modifier.depth} step-by-step process, considering ${modifier.constraints} constraints and stakeholder needs.`,
       type: 'behavioral',
       difficulty: difficultyLevel,
       points: pointsMap[difficultyLevel],
       category: 'problem_solving'
     });
 
-    // Generate scenario-based questions
+    // Generate enhanced scenario-based questions
     if (scenario.challenges && Array.isArray(scenario.challenges)) {
       scenario.challenges.forEach((challenge, index) => {
         questions.push({
-          content: `Regarding the challenge: "${challenge}", what specific actions would you take and why?`,
+          content: `Regarding the challenge: "${challenge}", what specific actions would you take and why? Include ${modifier.complexity} considerations for potential outcomes and trade-offs.`,
           type: 'scenario',
           difficulty: difficultyLevel,
           points: pointsMap[difficultyLevel],
@@ -157,24 +205,55 @@ class AdaptiveScenarioService {
       });
     }
 
-    // Add role-specific technical questions
+    // Add enhanced role-specific questions
     if (role.includes('developer') || role.includes('engineer')) {
       questions.push({
-        content: `What technical approaches or technologies would you use to address this scenario? Explain your choices.`,
+        content: `What technical approaches or technologies would you use to address this scenario? Provide ${modifier.depth} explanations for your choices, including architecture considerations and potential technical challenges.`,
         type: 'technical',
         difficulty: difficultyLevel,
         points: pointsMap[difficultyLevel] * 1.2, // Higher points for technical questions
         category: 'technical_expertise'
       });
+      
+      // Add system design question for higher difficulty levels
+      if (difficultyLevel === 'advanced' || difficultyLevel === 'expert') {
+        questions.push({
+          content: `Design a system architecture to address the core challenges in this scenario. Include components, data flow, scalability considerations, and potential bottlenecks.`,
+          type: 'system_design',
+          difficulty: difficultyLevel,
+          points: pointsMap[difficultyLevel] * 1.5,
+          category: 'system_design'
+        });
+      }
     } else if (role.includes('manager') || role.includes('lead')) {
       questions.push({
-        content: `How would you manage the team and stakeholders in this scenario? What leadership approaches would you employ?`,
+        content: `How would you manage the team and stakeholders in this scenario? Describe ${modifier.depth} leadership approaches you would employ, including communication strategies and conflict resolution.`,
         type: 'leadership',
         difficulty: difficultyLevel,
         points: pointsMap[difficultyLevel] * 1.2,
         category: 'leadership_skills'
       });
+      
+      // Add resource management question for higher difficulty levels
+      if (difficultyLevel === 'advanced' || difficultyLevel === 'expert') {
+        questions.push({
+          content: `How would you allocate resources and manage priorities in this scenario? Include budget considerations, team capacity planning, and risk mitigation strategies.`,
+          type: 'resource_management',
+          difficulty: difficultyLevel,
+          points: pointsMap[difficultyLevel] * 1.3,
+          category: 'management_skills'
+        });
+      }
     }
+    
+    // Add communication question for all roles
+    questions.push({
+      content: `How would you communicate the approach and results to all stakeholders in this scenario? Consider different audience needs and communication channels.`,
+      type: 'communication',
+      difficulty: difficultyLevel,
+      points: pointsMap[difficultyLevel],
+      category: 'communication'
+    });
 
     return questions;
   }
