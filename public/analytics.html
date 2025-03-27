@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - AI Hiring Assessment Platform</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <!-- Navigation will be inserted here by JavaScript -->
+            <div class="user-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." class="search-input">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-login">Login</button>
+                    <button class="btn btn-signup">Sign Up</button>
+                </div>
+            </div>
+        </header>
+        <main>
+            <section class="dashboard-header">
+                <h1>Advanced Analytics Dashboard</h1>
+                <p>Comprehensive insights into candidate performance, assessment effectiveness, and hiring trends</p>
+                <div class="dashboard-filters">
+                    <div class="filter-group">
+                        <label for="assessment-type-filter">Assessment Type:</label>
+                        <select id="assessment-type-filter">
+                            <option value="all">All Assessments</option>
+                            <option value="technical">Technical</option>
+                            <option value="behavioral">Behavioral</option>
+                            <option value="cognitive">Cognitive</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="role-filter">Target Role:</label>
+                        <select id="role-filter">
+                            <option value="all">All Roles</option>
+                            <option value="developer">Developer</option>
+                            <option value="manager">Manager</option>
+                            <option value="designer">Designer</option>
+                            <option value="analyst">Analyst</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="date-range-filter">Date Range:</label>
+                        <select id="date-range-filter">
+                            <option value="7days">Last 7 Days</option>
+                            <option value="30days" selected>Last 30 Days</option>
+                            <option value="90days">Last 90 Days</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="apply-filters">Apply Filters</button>
+                </div>
+            </section>
+
+            <section class="dashboard-summary">
+                <div class="summary-cards">
+                    <div class="card summary-card">
+                        <div class="summary-icon"><i class="fas fa-users"></i></div>
+                        <div class="summary-content">
+                            <h3>Total Candidates</h3>
+                            <p class="summary-value">0</p>
+                            <p class="summary-trend positive"><i class="fas fa-arrow-up"></i> 0% from last month</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="summary-icon"><i class="fas fa-tasks"></i></div>
+                        <div class="summary-content">
+                            <h3>Active Assessments</h3>
+                            <p class="summary-value">0</p>
+                            <p class="summary-trend positive"><i class="fas fa-arrow-up"></i> 0% from last month</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="summary-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="summary-content">
+                            <h3>Completed Assessments</h3>
+                            <p class="summary-value">0</p>
+                            <p class="summary-trend positive"><i class="fas fa-arrow-up"></i> 0% from last month</p>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <div class="summary-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="summary-content">
+                            <h3>Average Score</h3>
+                            <p class="summary-value">0%</p>
+                            <p class="summary-trend negative"><i class="fas fa-arrow-down"></i> 0% from last month</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="dashboard-charts">
+                <div class="chart-row">
+                    <div class="card chart-card">
+                        <h3 class="chart-title">Assessment Performance by Type</h3>
+                        <div class="chart-container">
+                            <canvas id="assessment-type-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card chart-card">
+                        <h3 class="chart-title">Skill Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="skill-distribution-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-row">
+                    <div class="card chart-card">
+                        <h3 class="chart-title">Candidate Performance Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="performance-trend-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card chart-card">
+                        <h3 class="chart-title">Communication Analysis</h3>
+                        <div class="chart-container">
+                            <canvas id="communication-analysis-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ai-insights">
+                <h2 class="section-title">AI-Generated Insights</h2>
+                <div class="insights-container">
+                    <div class="card insight-card">
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb insight-icon"></i>
+                            <h3>Technical Skills Analysis</h3>
+                        </div>
+                        <div class="insight-content">
+                            <p>Based on recent technical assessments, candidates show strong performance in:</p>
+                            <ul class="strength-list">
+                                <li><span class="strength-score">0%</span> Loading...</li>
+                            </ul>
+                            <p>Areas for improvement include:</p>
+                            <ul class="weakness-list">
+                                <li><span class="weakness-score">0%</span> Loading...</li>
+                            </ul>
+                            <div class="recommendation">
+                                <h4>Recommendation:</h4>
+                                <p>Loading recommendations...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card insight-card">
+                        <div class="insight-header">
+                            <i class="fas fa-comments insight-icon"></i>
+                            <h3>Communication Pattern Analysis</h3>
+                        </div>
+                        <div class="insight-content">
+                            <p>Communication assessment results indicate:</p>
+                            <ul class="communication-metrics">
+                                <li><span class="metric-label">Clarity:</span> <span class="metric-value">Loading...</span></li>
+                                <li><span class="metric-label">Coherence:</span> <span class="metric-value">Loading...</span></li>
+                                <li><span class="metric-label">Complexity:</span> <span class="metric-value">Loading...</span></li>
+                            </ul>
+                            <p>Sentiment analysis shows predominantly positive communication patterns with professional tone.</p>
+                            <div class="recommendation">
+                                <h4>Recommendation:</h4>
+                                <p>Loading recommendations...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card insight-card">
+                        <div class="insight-header">
+                            <i class="fas fa-brain insight-icon"></i>
+                            <h3>Behavioral Insights</h3>
+                        </div>
+                        <div class="insight-content">
+                            <p>Leadership potential indicators:</p>
+                            <div class="behavioral-metrics">
+                                <div class="metric-item">
+                                    <span class="metric-name">Decision Making</span>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 0%;"></div>
+                                    </div>
+                                    <span class="metric-value">0%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-name">Team Collaboration</span>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 0%;"></div>
+                                    </div>
+                                    <span class="metric-value">0%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-name">Stress Response</span>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 0%;"></div>
+                                    </div>
+                                    <span class="metric-value">0%</span>
+                                </div>
+                            </div>
+                            <div class="recommendation">
+                                <h4>Recommendation:</h4>
+                                <p>Loading recommendations...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2023 AI Hiring Assessment Platform. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="/dashboard.js"></script>
+    <script src="/analytics.js"></script>
+</body>
+</html>

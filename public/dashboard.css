@@ -1,5 +1,219 @@
 /* Dashboard Styles for AI Hiring Assessment Platform */
 
+/* Analytics Dashboard Specific Styles */
+.custom-date-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.date-input-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.date-input {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close-error {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #721c24;
+    margin-left: auto;
+}
+
+/* AI Insights Section */
+.ai-insights {
+    margin-top: 2rem;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.insights-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.insight-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+.insight-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+}
+
+.insight-icon {
+    font-size: 1.5rem;
+    color: #3498db;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(52, 152, 219, 0.1);
+    border-radius: 50%;
+}
+
+.insight-content {
+    padding: 1.5rem;
+}
+
+.strength-list, .weakness-list, .communication-metrics {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.strength-list li, .weakness-list li, .communication-metrics li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.strength-score, .weakness-score, .metric-value {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    font-weight: 500;
+}
+
+.strength-score {
+    background-color: rgba(46, 204, 113, 0.2);
+    color: #27ae60;
+}
+
+.weakness-score {
+    background-color: rgba(231, 76, 60, 0.2);
+    color: #c0392b;
+}
+
+.metric-label {
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+.metric-value.high {
+    color: #27ae60;
+}
+
+.metric-value.medium {
+    color: #f39c12;
+}
+
+.metric-value.low {
+    color: #e74c3c;
+}
+
+.behavioral-metrics {
+    margin: 1.5rem 0;
+}
+
+.metric-item {
+    margin-bottom: 1rem;
+}
+
+.metric-name {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+}
+
+.progress {
+    height: 100%;
+    background-color: #3498db;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.metric-value {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+.recommendation {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+.recommendation h4 {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
 /* Dashboard Header */
 .dashboard-header {
     text-align: center;
